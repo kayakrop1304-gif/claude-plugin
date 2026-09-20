@@ -1,0 +1,12 @@
+{
+  "name": "chievers",
+  "owner": { "name": "@CHIEVERS", "url": "https://www.achieversecom.com" },
+  "plugins": [
+    {
+      "name": "ecom-coach",
+      "source": "./plugins/ecom-coach",
+      "description": "Je persoonlijke e-commerce coach in Claude: vragen stellen, je winkelprofiel lezen en in de kennisbank zoeken. Werkt met je @CHIEVERS-abonnement.",
+      "version": "1.0.0"
+    }
+  ]
+}

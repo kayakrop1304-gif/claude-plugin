@@ -1,0 +1,14 @@
+{
+  "name": "ecom-coach",
+  "version": "1.0.0",
+  "description": "Je persoonlijke e-commerce coach in Claude. Vragen stellen, winkelprofiel lezen, kennisbank doorzoeken. Vereist een actief @CHIEVERS-abonnement.",
+  "author": { "name": "@CHIEVERS", "url": "https://www.achieversecom.com" },
+  "homepage": "https://www.achieversecom.com",
+  "keywords": ["ecommerce", "coach", "shopify", "ads", "dropshipping"],
+  "mcpServers": {
+    "ecom-coach": {
+      "type": "http",
+      "url": "https://chievers-coach-production-272c.up.railway.app/mcp"
+    }
+  }
+}
