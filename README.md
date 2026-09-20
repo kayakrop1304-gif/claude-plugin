@@ -40,4 +40,5 @@ Alles wat je via Claude vraagt staat ook in je dashboard.
 
 - Inloggen gebeurt op onze eigen pagina, nooit in Claude. Claude krijgt een eigen token dat alleen op deze server werkt, een uur geldig is en automatisch wordt vernieuwd.
 - Stopt je abonnement, dan stopt de koppeling binnen een minuut en kan Claude geen nieuw token meer halen.
+- Per account werkt één Claude-koppeling tegelijk. Koppel je een tweede Claude, dan vervalt de eerste. Je login delen met iemand anders zet dus jezelf buiten spel.
 - Koppeling weghalen: in Claude de connector verwijderen, of in je dashboard alle koppelingen intrekken.
