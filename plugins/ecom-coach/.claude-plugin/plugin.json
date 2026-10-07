@@ -1,6 +1,6 @@
 {
   "name": "ecom-coach",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Je persoonlijke e-commerce coach in Claude. Je eigen Claude schrijft het advies met de briefing van de coach: winkel, dossier, fase en kennisbank. Met /ecom-coach:concurrentiescan scan je je concurrenten met je eigen Brandsearch. Vereist een actief @CHIEVERS-abonnement.",
   "author": { "name": "@CHIEVERS", "url": "https://www.achieversecom.com" },
   "homepage": "https://www.achieversecom.com",

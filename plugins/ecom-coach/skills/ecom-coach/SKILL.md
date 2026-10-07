@@ -23,7 +23,7 @@ De gebruiker heeft een persoonlijke e-commerce coach gekoppeld via de MCP-server
 - `mijn_concurrenten` geeft alleen de scan van de actieve winkel, of van de `storeId` die je meegeeft. Is `scan` leeg, zeg dan dat er voor die winkel nog geen scan is en gebruik niets uit een scan van een andere winkel.
 - Kansen en voorstellen uit een scan zijn richtinggevend: een gat in wat concurrenten draaien, geen bewijs dat het werkt en nog niet getest. Zeg het zo, neem de kans over zoals hij er staat (welke angle, bij welke klant, in welke fase) en maak er geen ander gat van.
 - Zegt de scan dat de labels niet betrouwbaar zijn (`labels_betrouwbaar` is false, of er staat een `ijk_waarschuwing`), gebruik de kansen dan niet als advies en zeg waarom.
-- Een nieuwe scan start je niet zelf. Vraagt de student erom, verwijs dan naar `/ecom-coach:concurrentiescan` in Claude Code of de Code-tab van de desktop-app. Is een scan gestopt, dan pakt diezelfde opdracht de open scan weer op.
+- Vraagt de student om een concurrentiescan (of om zijn concurrenten te scannen), start dan de opdracht `/ecom-coach:concurrentiescan` (met de domeinen die hij noemt). Dat werkt alleen in Claude Code of de Code-tab van de desktop-app; in een gewone chat zeg je dat hij hem daar start. Is een scan gestopt, dan pakt diezelfde opdracht de open scan weer op.
 
 ## Het antwoord
 

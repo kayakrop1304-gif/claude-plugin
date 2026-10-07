@@ -1,7 +1,9 @@
 ---
 description: Scan je concurrenten met je eigen Brandsearch en vul de tab Concurrenten in Chief (ads, winkels en labels)
 argument-hint: "[domeinen van concurrenten] [eigen:jouw-winkel.nl] [nieuw]"
-disable-model-invocation: true
+# Geen disable-model-invocation (7 okt 2026): Claude mag de scan zelf starten als de
+# student erom vraagt in gewone woorden. Het tegoed is beschermd door de bevestiging
+# van merken en kosten in stap 2.
 # Toestemmingen (ronde 13, review 3 en slotcontrole), getoetst aan
 # code.claude.com/docs/en/permissions, /skills en /hooks:
 # - allowed-tools keurt alleen vooraf goed, in de beurt waarin de opdracht start. Na het
@@ -69,8 +71,9 @@ Lees de argumenten zo: elk domein is een concurrent, `eigen:<domein>` is het dom
 
 ## Welke tools
 
-- Chief: gebruik de Chief-tools die werken, welk voorvoegsel ze ook hebben. Ze komen van de plugin (`mcp__plugin_ecom-coach_ecom-coach__...`) of van de Chief-connector van claude.ai; de naam eindigt altijd op `scan_start`, `scan_nieuw_token`, `scan_concepten`, `scan_labels`, `scan_klachten`, `scan_klaar`. Werkt er één, gebruik die en log nergens in.
-- Log alleen in als geen enkele Chief-tool werkt (ze ontbreken, of elke Chief-tool vraagt om in te loggen). Zeg dan "Typ /mcp, kies ecom-coach en log in. Start daarna deze opdracht opnieuw." en stop. Per account werkt één koppeling met Chief: een nieuwe login kan de vorige vervangen.
+- Chief: gebruik een Chief-tool waarvan de naam eindigt op `scan_start` (en dezelfde reeks: `scan_nieuw_token`, `scan_concepten`, `scan_labels`, `scan_klachten`, `scan_klaar`). Ze komen van de plugin (`mcp__plugin_ecom-coach_ecom-coach__...`) of van een Chief-connector uit claude.ai. Werkt er één, gebruik die en log nergens in.
+- Een Chief-connector uit claude.ai kan een oude lijst tools hebben, met wel `vraag_coach` en `mijn_winkel` maar zonder `scan_start`. Die kan de scan niet doen. Dan heb je de plugin-server nodig.
+- Heeft geen enkele Chief-tool `scan_start`, of vraagt de plugin-server om in te loggen: zeg dan precies dit en stop: "Je Claude moet één keer inloggen bij Chief via de plugin. Typ /mcp, kies plugin:ecom-coach:ecom-coach, kies Authenticate en log in met je Chief-account. Zeg daarna: start de concurrentiescan." Je Chief-connector in claude.ai mag gewoon blijven staan: per account werken twee koppelingen tegelijk.
 - Brandsearch is een connector op het Claude-account van de student: die toolnamen eindigen op `query_meta_ads`, `lookup_brand`, `lookup_brands_batch` en `get_usage`, het begin verschilt per account. Ontbreken ze, zeg "Verbind Brandsearch in claude.ai bij Customize > Connectors" en stop.
 - Claude Code vraagt de student een paar keer om toestemming, vooral voor Brandsearch en Chief. Daarom staat de toestemmingszin in het kostenbericht van stap 2. Kiest de student Nee, sla dat onderdeel over en noem het in de samenvatting.
 

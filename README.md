@@ -2,7 +2,7 @@
 
 Je persoonlijke e-commerce coach, rechtstreeks in Claude. Werkt in claude.ai, de desktop-app en Claude Code. Je logt in met je gewone account; de koppeling werkt zolang je abonnement loopt.
 
-Er is één manier om Chief te koppelen: de plugin `ecom-coach`. De plugin brengt zijn eigen koppeling (connector) mee. Voeg Chief niet daarnaast nog als losse connector toe (Custom connector of `claude mcp add`): dat is een tweede koppeling, en een tweede koppeling kan de eerste vervangen. Dan werkt de coach in je andere Claude niet meer tot je daar opnieuw inlogt.
+Je koppelt Chief met de plugin `ecom-coach`. De plugin brengt zijn eigen koppeling (connector) mee. Per account werken twee koppelingen tegelijk, bijvoorbeeld Chief in claude.ai en de plugin in Claude Code. Een derde login vervangt de oudste.
 
 ## Installeren via claude.ai (aanbevolen)
 
@@ -11,7 +11,7 @@ Er is één manier om Chief te koppelen: de plugin `ecom-coach`. De plugin breng
 3. Kies de plugin `ecom-coach` en klik op Add.
 4. Open de plugin, tab Connectors, en verbind `ecom-coach`: log in met je account.
 
-De plugin staat daarna ook in Claude Code en in de Code-tab van de desktop-app, met dezelfde koppeling. Zie je hem daar nog niet, typ dan `/reload-plugins` of start Claude Code opnieuw. Log in Claude Code niet nog een keer in bij `/mcp` zolang de coach daar werkt: dat maakt een tweede koppeling.
+De plugin staat daarna ook in Claude Code en in de Code-tab van de desktop-app, met dezelfde koppeling. Zie je hem daar nog niet, typ dan `/reload-plugins` of start Claude Code opnieuw. Ziet je Claude daar geen Chief-tool die op `scan_start` eindigt (een Chief-connector die je eerder in claude.ai toevoegde, kan een oude lijst tools hebben), log dan één keer in: typ `/mcp`, kies `plugin:ecom-coach:ecom-coach`, kies Authenticate en log in met je Chief-account.
 
 ## Alleen Claude Code
 
@@ -59,7 +59,7 @@ Toestemming: Claude vraagt een paar keer toestemming voor Brandsearch en Chief: 
 
 Gestopt? Draai `/ecom-coach:concurrentiescan` opnieuw: Chief pakt je open scan op. Je Claude haalt dan geen ads opnieuw op en gaat verder waar hij was, bijvoorbeeld met labelen. Dat kan tot 72 uur na de start van de scan. Wil je bewust opnieuw beginnen, typ dan `/ecom-coach:concurrentiescan nieuw`, eventueel met domeinen erachter. De oude scan stopt dan.
 
-Gebruik Chief niet in een andere Claude zolang de scan loopt. Per account werkt één koppeling tegelijk: log je ergens anders opnieuw in, dan kan de scan stoppen. Hij blijft wel open staan: log in Claude Code opnieuw in (`/mcp`) en zeg in hetzelfde gesprek "ga door", of draai de opdracht later opnieuw.
+Log niet op een derde plek opnieuw in bij Chief zolang de scan loopt. Per account werken twee koppelingen tegelijk: een derde login vervangt de oudste, en dan kan de scan stoppen. Hij blijft wel open staan: log in Claude Code opnieuw in (`/mcp`) en zeg in hetzelfde gesprek "ga door", of draai de opdracht later opnieuw.
 
 Kosten: de scan gebruikt het tegoed van je eigen Brandsearch-account. Dat is 1 aanroep per pagina van 100 ads, hooguit 10 pagina's per merk, en alleen bij een merk met meer dan 1.000 ads 1 extra voor de nieuwste. Bij N merken dus N tot N x 11 aanroepen. Merken opzoeken is gratis. Daarna labelt je eigen Claude de concepten: bij 5 tot 8 merken zijn dat er meestal een paar honderd. Dat kost een flink deel van je Claude-limiet en duurt al snel een half uur tot een uur. Per gesprek labelt Claude hooguit 16 rondes van 25: zo'n 375 concepten, plus een paar controlevragen waarmee Chief nagaat of de labels kloppen. Chief rondt een scan af zodra 80 procent van de concepten een label heeft. Vanaf ongeveer 470 concepten haalt één gesprek die 80 procent dus niet: Claude stopt na 16 rondes en zegt wat je kunt doen. Draai de opdracht later opnieuw om verder te labelen, of begin kleiner met `/ecom-coach:concurrentiescan nieuw` en minder merken.
 
@@ -85,7 +85,7 @@ Alles wat je via Claude vraagt staat ook in je dashboard.
 - Inloggen gebeurt op onze eigen pagina, nooit in Claude. Claude krijgt een eigen token dat alleen op deze server werkt, een uur geldig is en automatisch wordt vernieuwd.
 - Voor de concurrentiescan krijgt Claude een apart scantoken. Dat werkt alleen voor het uploaden van scanbestanden en verloopt na 60 minuten.
 - Stopt je abonnement, dan stopt de koppeling binnen een minuut en kan Claude geen nieuw token meer halen.
-- Per account werkt één Claude-koppeling tegelijk: een tweede koppeling kan de eerste vervangen. Je login delen met iemand anders zet dus jezelf buiten spel.
+- Per account werken twee Claude-koppelingen tegelijk: een derde vervangt de oudste. Je login delen met iemand anders zet dus jezelf buiten spel.
 - De concurrentiescan leest tekst van concurrenten, en daar kan een opdracht in staan. Daarom mag `/ecom-coach:concurrentiescan` zonder te vragen alleen de scantools van Chief gebruiken, uploaden naar het adres van Chief, winkelpagina's ophalen naar de map `chief-scan` en bestanden schrijven in die map. Die toestemmingsregels alleen zijn geen harde grens: een regel die met het adres van Chief begint, laat achter dat begin ook een extra adres of een ander bestand toe.
 - Daarom komt er een extra slot mee: de Chief-scanwacht. Die controleert elke scanopdracht via Bash, Monitor of PowerShell: elke opdracht die `curl` aanroept en de map `chief-scan/` of het uploadadres van Chief (`concurrenten/upload`) noemt. Zo'n opdracht moet precies de vaste vorm hebben: één adres, en dat is het uploadadres van Chief of een vaste pagina van een winkel; opslaan alleen in `chief-scan`; niets ervoor of erachter, geen `$`, backticks, `;` of `|`. Wijkt hij af, dan houdt Claude Code hem tegen. In Bash en Monitor geldt dat ook als de `curl` achter een andere opdracht staat (`ls chief-scan/ && curl ...`); de reden zegt dan waarom hij als scanopdracht telt.
 - Noemt een opdracht in Bash of Monitor `chief-scan/` of `concurrenten/upload`, dan houdt de wacht ook elke `$( )`, backtick of procesvervanging (`<( )`, `>( )`) erin tegen, ook tussen aanhalingstekens en in een commitbericht. Een `curl` kan zich daarin verstoppen. Schrijf zo'n commitbericht bijvoorbeeld met `git commit -F bestand`.
