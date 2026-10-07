@@ -6,7 +6,7 @@
       "name": "ecom-coach",
       "source": "./plugins/ecom-coach",
       "description": "Je persoonlijke e-commerce coach in Claude: vragen stellen, je winkelprofiel lezen, in de kennisbank zoeken en je concurrenten scannen. Werkt met je @CHIEVERS-abonnement.",
-      "version": "1.3.0"
+      "version": "1.3.1"
     }
   ]
 }

@@ -26,7 +26,7 @@ Daarna in Claude Code: `/mcp`, kies `ecom-coach` en log één keer in. Of stel d
 
 ## Bijwerken
 
-Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je instellingen. Voor `/ecom-coach:concurrentiescan` heb je versie 1.3.0 of nieuwer nodig (sinds 1.3.0 scant hij de hele niche). Kent Claude die opdracht niet, dan heb je nog een oudere versie. Zo werk je bij:
+Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je instellingen. Voor `/ecom-coach:concurrentiescan` heb je versie 1.3.0 of nieuwer nodig (sinds 1.3.0 scant hij de hele niche; 1.3.1 verwijst naar de Scan in Chief). Kent Claude die opdracht niet, dan heb je nog een oudere versie. Zo werk je bij:
 
 - claude.ai of de desktop-app: open Customize > Plugins, haal `ecom-coach` weg en voeg hem opnieuw toe uit de marketplace `kayakrop1304-gif/claude-plugin`. Verbind daarna de connector opnieuw (tab Connectors).
 - Claude Code:
@@ -42,7 +42,9 @@ Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je
 
 ## Concurrentiescan
 
-Typ `/ecom-coach:concurrentiescan`. Wil je bepaalde concurrenten er zeker bij, geef ze mee: `/ecom-coach:concurrentiescan concurrent-a.nl concurrent-b.nl`. Het domein van je eigen winkel kun je meegeven met `eigen:jouw-winkel.nl`.
+Het makkelijkst: open in Chief de tab Concurrenten, plak je Brandsearch-API-sleutel en klik op Start. Chief zoekt dan zelf de hele niche af, labelt de sterkste advertenties en bouwt je datafarm. Daarvoor heb je deze plugin niet nodig.
+
+Liever via Claude Code: typ `/ecom-coach:concurrentiescan`. Wil je bepaalde concurrenten er zeker bij, geef ze mee: `/ecom-coach:concurrentiescan concurrent-a.nl concurrent-b.nl`. Het domein van je eigen winkel kun je meegeven met `eigen:jouw-winkel.nl`.
 
 Een scan is altijd een scan van de hele niche, nooit van een paar winkels. Je eigen Claude zoekt met jouw Brandsearch alle Meta-ads in je niche op zoektermen (in de taal van je markt), haalt daarna van de 15 grootste merken alle ads op, stuurt alles naar Chief en labelt de sterkste 400 concepten. Ook haalt hij hun winkelgegevens op (prijzen, garantie, retour, verzending) voor Jij tegen 5. Chief rekent uit wat nu schaalt, wat een oude winnaar is en waar kansen liggen, en zet alles in de tab Concurrenten.
 

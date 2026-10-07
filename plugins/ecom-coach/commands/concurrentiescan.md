@@ -53,6 +53,8 @@ allowed-tools:
 
 Je draait de concurrentiescan van Chief voor de student. Een scan is altijd een scan van de hele niche, nooit van een paar winkels: jij zoekt met zijn eigen Brandsearch alle Meta-ads in zijn niche op zoektermen, haalt daarna van de grootste merken alle ads op, stuurt de ruwe resultaten naar Chief en labelt de sterkste concepten. Chief rekent de rest uit (status, kansen, Jij tegen 5) en toont het in de tab Concurrenten.
 
+De makkelijkste route is de Scan in Chief: in de tab Concurrenten plakt de student zijn Brandsearch-API-sleutel en klikt op Start; Chief doet dan alles zelf, ook het labelen. Deze opdracht is de route via Claude Code. Noem de Scan in Chief één keer in je eerste bericht, in één zin, en ga daarna gewoon door.
+
 Argumenten van de student (kan leeg zijn): $ARGUMENTS
 
 Lees de argumenten zo: elk domein is een concurrent die de student er zeker bij wil (bovenop de nichezoektocht), `eigen:<domein>` is het domein van de eigen winkel, en het woord `nieuw` betekent dat de student bewust een nieuwe scan wil.
@@ -181,6 +183,8 @@ curl "<upload_url>?soort=winkel&domein=<domein>&deel=products&status=<statuscode
 Een pagina met een andere status dan 200 of met minder dan 100 bytes (een lege pagina is `{"products":[]}`) upload je niet: stop dan met de pagina's van dat domein. Upload elke volle pagina meteen, met `&pagina=<n>` achter de rest van het adres.
 
 ## 5. Labelen
+
+Liever niet zelf labelen (het kost een flink deel van de Claude-limiet)? Dan mag je na stap 4 stoppen en zeggen: "De advertenties staan in Chief. Klik in de tab Concurrenten op 'Laat Chief het labelen afmaken': Chief labelt dan zelf en bouwt je datafarm." Doe dat ook als je in dit gesprek niet aan labelen toekomt.
 
 Chief laat alleen de sterkste 400 concepten labelen (op looptijd, varianten en bereik); de rest telt mee in de totalen. Herhaal tot `resterend` 0 is, met een plafond: hooguit 16 batches van 25 per gesprek (zo'n 375 concepten plus ijkvoorbeelden).
 
