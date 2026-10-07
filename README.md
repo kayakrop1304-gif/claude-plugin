@@ -26,7 +26,7 @@ Daarna in Claude Code: `/mcp`, kies `ecom-coach` en log één keer in. Of stel d
 
 ## Bijwerken
 
-Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je instellingen. Voor `/ecom-coach:concurrentiescan` heb je versie 1.2.0 of nieuwer nodig. Kent Claude die opdracht niet, dan heb je nog een oudere versie. Zo werk je bij:
+Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je instellingen. Voor `/ecom-coach:concurrentiescan` heb je versie 1.3.0 of nieuwer nodig (sinds 1.3.0 scant hij de hele niche). Kent Claude die opdracht niet, dan heb je nog een oudere versie. Zo werk je bij:
 
 - claude.ai of de desktop-app: open Customize > Plugins, haal `ecom-coach` weg en voeg hem opnieuw toe uit de marketplace `kayakrop1304-gif/claude-plugin`. Verbind daarna de connector opnieuw (tab Connectors).
 - Claude Code:
@@ -42,18 +42,18 @@ Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je
 
 ## Concurrentiescan
 
-Typ `/ecom-coach:concurrentiescan`, of geef zelf domeinen mee: `/ecom-coach:concurrentiescan concurrent-a.nl concurrent-b.nl`. Het domein van je eigen winkel kun je meegeven met `eigen:jouw-winkel.nl`.
+Typ `/ecom-coach:concurrentiescan`. Wil je bepaalde concurrenten er zeker bij, geef ze mee: `/ecom-coach:concurrentiescan concurrent-a.nl concurrent-b.nl`. Het domein van je eigen winkel kun je meegeven met `eigen:jouw-winkel.nl`.
 
-Je eigen Claude haalt de Meta-ads van je concurrenten op met jouw Brandsearch, stuurt ze naar Chief en labelt ze. Ook haalt hij hun winkelgegevens op (prijzen, garantie, retour, verzending) voor Jij tegen 5. Chief rekent uit wat nu schaalt, wat een oude winnaar is en waar kansen liggen, en zet alles in de tab Concurrenten.
+Een scan is altijd een scan van de hele niche, nooit van een paar winkels. Je eigen Claude zoekt met jouw Brandsearch alle Meta-ads in je niche op zoektermen (in de taal van je markt), haalt daarna van de 15 grootste merken alle ads op, stuurt alles naar Chief en labelt de sterkste 400 concepten. Ook haalt hij hun winkelgegevens op (prijzen, garantie, retour, verzending) voor Jij tegen 5. Chief rekent uit wat nu schaalt, wat een oude winnaar is en waar kansen liggen, en zet alles in de tab Concurrenten.
 
 Wat je nodig hebt:
 
 - De plugin met de Chief-koppeling (zie hierboven).
 - Brandsearch als connector op je eigen Claude-account: claude.ai, Customize > Connectors. Je hebt een Brandsearch-abonnement met API-tegoed nodig. Nog geen account? Maak er een via https://app.achieversecom.com/brandsearch.
 - Een computer met Claude Code of de Code-tab van de desktop-app. Op je telefoon en in een gewone chat werkt de scan niet, want Claude stuurt de bestanden met `curl` naar Chief.
-- Plugin versie 1.2.0 of nieuwer (zie Bijwerken).
+- Plugin versie 1.3.0 of nieuwer (zie Bijwerken).
 
-Zonder domeinen stelt Claude 3 tot 8 concurrenten voor. Klopt de lijst, plak dan de regel die Claude je geeft (`/ecom-coach:concurrentiescan` met de domeinen erachter). Daarna gaat alles vanzelf. Gewoon "ja" antwoorden mag ook, maar dan vraagt Claude Code vaker om toestemming.
+Claude stelt eerst je markt en 6 tot 20 zoektermen voor (productwoorden en probleemwoorden). Klopt dat, zeg ja of pas de zoektermen aan. Daarna gaat alles vanzelf. Chief rondt een scan pas af als de hele niche is afgezocht: minstens 6 zoektermen, elke zoekterm tot de laatste pagina (hooguit 20 pagina's van 100 ads).
 
 Toestemming: Claude vraagt een paar keer toestemming voor Brandsearch en Chief: kies Altijd toestaan (in de terminal heet dat "Yes, and don't ask again"). Gaat een vraag over iets anders dan Brandsearch, Chief, de winkels van je concurrenten of de map `chief-scan`, kies dan Nee.
 
@@ -61,7 +61,7 @@ Gestopt? Draai `/ecom-coach:concurrentiescan` opnieuw: Chief pakt je open scan o
 
 Log niet op een derde plek opnieuw in bij Chief zolang de scan loopt. Per account werken twee koppelingen tegelijk: een derde login vervangt de oudste, en dan kan de scan stoppen. Hij blijft wel open staan: log in Claude Code opnieuw in (`/mcp`) en zeg in hetzelfde gesprek "ga door", of draai de opdracht later opnieuw.
 
-Kosten: de scan gebruikt het tegoed van je eigen Brandsearch-account. Dat is 1 aanroep per pagina van 100 ads, hooguit 10 pagina's per merk, en alleen bij een merk met meer dan 1.000 ads 1 extra voor de nieuwste. Bij N merken dus N tot N x 11 aanroepen. Merken opzoeken is gratis. Daarna labelt je eigen Claude de concepten: bij 5 tot 8 merken zijn dat er meestal een paar honderd. Dat kost een flink deel van je Claude-limiet en duurt al snel een half uur tot een uur. Per gesprek labelt Claude hooguit 16 rondes van 25: zo'n 375 concepten, plus een paar controlevragen waarmee Chief nagaat of de labels kloppen. Chief rondt een scan af zodra 80 procent van de concepten een label heeft. Vanaf ongeveer 470 concepten haalt één gesprek die 80 procent dus niet: Claude stopt na 16 rondes en zegt wat je kunt doen. Draai de opdracht later opnieuw om verder te labelen, of begin kleiner met `/ecom-coach:concurrentiescan nieuw` en minder merken.
+Kosten: de scan gebruikt het tegoed van je eigen Brandsearch-account. Dat is 1 aanroep per pagina van 100 ads: hooguit 20 pagina's per zoekterm, en daarna hooguit 11 per groot merk. Reken op 150 tot 600 aanroepen; met minder dan 100 begint Claude er niet aan. Merken opzoeken is gratis. Een scan heeft hooguit 11.000 ads. Daarna labelt je eigen Claude de sterkste 400 concepten (op looptijd, varianten en bereik): hooguit 16 rondes van 25 per gesprek, plus een paar controlevragen waarmee Chief nagaat of de labels kloppen. De andere concepten tellen mee in de totalen en de merken. Dat kost een flink deel van je Claude-limiet en duurt al snel een tot twee uur. Chief rondt af zodra 80 procent van die sterkste concepten een label heeft. Lukt dat niet in één gesprek, dan stopt Claude na 16 rondes en zegt wat je kunt doen: draai de opdracht later opnieuw om verder te labelen.
 
 Je Claude stuurt de ruwe ads en winkelpagina's van je concurrenten naar Chief. Chief bewaart de adtekst hooguit 72 uur. Daarna blijven alleen labels, cijfers en een korte kop over.
 
