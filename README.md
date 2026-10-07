@@ -1,44 +1,101 @@
 # Ecom coach voor Claude
 
-Je persoonlijke e-commerce coach, rechtstreeks in Claude. Werkt in Claude Code, de Claude-app (Desktop en web) en overal waar je connectors kunt toevoegen. Je logt in met je gewone account; de koppeling werkt zolang je abonnement loopt.
+Je persoonlijke e-commerce coach, rechtstreeks in Claude. Werkt in claude.ai, de desktop-app en Claude Code. Je logt in met je gewone account; de koppeling werkt zolang je abonnement loopt.
 
-## Claude Code
+Er is één manier om Chief te koppelen: de plugin `ecom-coach`. De plugin brengt zijn eigen koppeling (connector) mee. Voeg Chief niet daarnaast nog als losse connector toe (Custom connector of `claude mcp add`): dat is een tweede koppeling, en een tweede koppeling kan de eerste vervangen. Dan werkt de coach in je andere Claude niet meer tot je daar opnieuw inlogt.
+
+## Installeren via claude.ai (aanbevolen)
+
+1. Open [Customize > Plugins](https://claude.ai/customize/plugins) in claude.ai of in de desktop-app.
+2. Kies Add > Add marketplace en vul in: `kayakrop1304-gif/claude-plugin`.
+3. Kies de plugin `ecom-coach` en klik op Add.
+4. Open de plugin, tab Connectors, en verbind `ecom-coach`: log in met je account.
+
+De plugin staat daarna ook in Claude Code en in de Code-tab van de desktop-app, met dezelfde koppeling. Zie je hem daar nog niet, typ dan `/reload-plugins` of start Claude Code opnieuw. Log in Claude Code niet nog een keer in bij `/mcp` zolang de coach daar werkt: dat maakt een tweede koppeling.
+
+## Alleen Claude Code
+
+Gebruik je geen claude.ai, installeer de plugin dan vanuit Claude Code:
 
 ```bash
 claude plugin marketplace add kayakrop1304-gif/claude-plugin
 claude plugin install ecom-coach@chievers
 ```
 
-Daarna in Claude Code: `/mcp`, kies `ecom-coach` en log in. Of stel direct een vraag met `/coach waarom verkoop ik niet`.
+Daarna in Claude Code: `/mcp`, kies `ecom-coach` en log één keer in. Of stel direct een vraag met `/coach waarom verkoop ik niet`.
 
-Liever zonder plugin, alleen de server:
+## Bijwerken
 
-```bash
-claude mcp add --transport http ecom-coach https://chievers-coach-production-272c.up.railway.app/mcp
-```
+Ga er niet van uit dat een nieuwe versie vanzelf binnenkomt: dat hangt af van je instellingen. Voor `/ecom-coach:concurrentiescan` heb je versie 1.2.0 of nieuwer nodig. Kent Claude die opdracht niet, dan heb je nog een oudere versie. Zo werk je bij:
 
-## Claude-app (Desktop en web)
+- claude.ai of de desktop-app: open Customize > Plugins, haal `ecom-coach` weg en voeg hem opnieuw toe uit de marketplace `kayakrop1304-gif/claude-plugin`. Verbind daarna de connector opnieuw (tab Connectors).
+- Claude Code:
 
-Instellingen, Connectors, Custom connector toevoegen. Naam: `Ecom coach`. Adres:
+  ```bash
+  claude plugin marketplace update chievers
+  claude plugin update ecom-coach@chievers
+  ```
 
-```
-https://chievers-coach-production-272c.up.railway.app/mcp
-```
+  Met `claude plugin list` zie je welke versie je hebt.
 
-Klik op Koppelen, log in met je account, klaar.
+  Start Claude Code daarna opnieuw, of typ `/reload-plugins`.
+
+## Concurrentiescan
+
+Typ `/ecom-coach:concurrentiescan`, of geef zelf domeinen mee: `/ecom-coach:concurrentiescan concurrent-a.nl concurrent-b.nl`. Het domein van je eigen winkel kun je meegeven met `eigen:jouw-winkel.nl`.
+
+Je eigen Claude haalt de Meta-ads van je concurrenten op met jouw Brandsearch, stuurt ze naar Chief en labelt ze. Ook haalt hij hun winkelgegevens op (prijzen, garantie, retour, verzending) voor Jij tegen 5. Chief rekent uit wat nu schaalt, wat een oude winnaar is en waar kansen liggen, en zet alles in de tab Concurrenten.
+
+Wat je nodig hebt:
+
+- De plugin met de Chief-koppeling (zie hierboven).
+- Brandsearch als connector op je eigen Claude-account: claude.ai, Customize > Connectors. Je hebt een Brandsearch-abonnement met API-tegoed nodig.
+- Een computer met Claude Code of de Code-tab van de desktop-app. Op je telefoon en in een gewone chat werkt de scan niet, want Claude stuurt de bestanden met `curl` naar Chief.
+- Plugin versie 1.2.0 of nieuwer (zie Bijwerken).
+
+Zonder domeinen stelt Claude 3 tot 8 concurrenten voor. Klopt de lijst, plak dan de regel die Claude je geeft (`/ecom-coach:concurrentiescan` met de domeinen erachter). Daarna gaat alles vanzelf. Gewoon "ja" antwoorden mag ook, maar dan vraagt Claude Code vaker om toestemming.
+
+Toestemming: Claude vraagt een paar keer toestemming voor Brandsearch en Chief: kies Altijd toestaan (in de terminal heet dat "Yes, and don't ask again"). Gaat een vraag over iets anders dan Brandsearch, Chief, de winkels van je concurrenten of de map `chief-scan`, kies dan Nee.
+
+Gestopt? Draai `/ecom-coach:concurrentiescan` opnieuw: Chief pakt je open scan op. Je Claude haalt dan geen ads opnieuw op en gaat verder waar hij was, bijvoorbeeld met labelen. Dat kan tot 72 uur na de start van de scan. Wil je bewust opnieuw beginnen, typ dan `/ecom-coach:concurrentiescan nieuw`, eventueel met domeinen erachter. De oude scan stopt dan.
+
+Gebruik Chief niet in een andere Claude zolang de scan loopt. Per account werkt één koppeling tegelijk: log je ergens anders opnieuw in, dan kan de scan stoppen. Hij blijft wel open staan: log in Claude Code opnieuw in (`/mcp`) en zeg in hetzelfde gesprek "ga door", of draai de opdracht later opnieuw.
+
+Kosten: de scan gebruikt het tegoed van je eigen Brandsearch-account. Dat is 1 aanroep per pagina van 100 ads, hooguit 10 pagina's per merk, en alleen bij een merk met meer dan 1.000 ads 1 extra voor de nieuwste. Bij N merken dus N tot N x 11 aanroepen. Merken opzoeken is gratis. Daarna labelt je eigen Claude de concepten: bij 5 tot 8 merken zijn dat er meestal een paar honderd. Dat kost een flink deel van je Claude-limiet en duurt al snel een half uur tot een uur. Per gesprek labelt Claude hooguit 16 rondes van 25: zo'n 375 concepten, plus een paar controlevragen waarmee Chief nagaat of de labels kloppen. Chief rondt een scan af zodra 80 procent van de concepten een label heeft. Vanaf ongeveer 470 concepten haalt één gesprek die 80 procent dus niet: Claude stopt na 16 rondes en zegt wat je kunt doen. Draai de opdracht later opnieuw om verder te labelen, of begin kleiner met `/ecom-coach:concurrentiescan nieuw` en minder merken.
+
+Je Claude stuurt de ruwe ads en winkelpagina's van je concurrenten naar Chief. Chief bewaart de adtekst hooguit 72 uur. Daarna blijven alleen labels, cijfers en een korte kop over.
 
 ## Wat de coach kan
 
-- `vraag_coach`: advies op maat, met bronnen. De coach kent je winkel, cijfers, dossier en fase.
+Je eigen Claude schrijft het advies. De coach levert per vraag een briefing: wat hij van je winkel, cijfers, dossier en fase weet, plus de kennis uit de kennisbank die bij je vraag hoort. Hoe beter het model dat je in Claude kiest, hoe beter het advies.
+
+- `vraag_coach`: de briefing voor je vraag.
+- `lees_kennis`: een hele kennispagina uit de briefing lezen.
+- `zoek_kennis`: gericht verder zoeken in de kennisbank.
+- `rond_af`: het antwoord vastleggen in je dashboard, zodat de coach onthoudt wat er besproken is.
 - `mijn_winkel`: wat de coach al van je weet.
 - `mijn_gesprekken`: je laatste gesprekken, om er een voort te zetten.
-- `zoek_kennis`: losse naslag in de kennisbank.
+- `scan_start`, `scan_nieuw_token`, `scan_concepten`, `scan_labels`, `scan_klachten`, `scan_klaar`: de stappen van de concurrentiescan.
+- `mijn_concurrenten`: de uitkomst van de laatste afgeronde scan van je actieve winkel, zodat Claude er hooks en scripts mee kan schrijven. Heeft die winkel nog geen scan, dan zegt Chief dat; een scan van een andere winkel krijg je nooit.
 
 Alles wat je via Claude vraagt staat ook in je dashboard.
 
 ## Beveiliging
 
 - Inloggen gebeurt op onze eigen pagina, nooit in Claude. Claude krijgt een eigen token dat alleen op deze server werkt, een uur geldig is en automatisch wordt vernieuwd.
+- Voor de concurrentiescan krijgt Claude een apart scantoken. Dat werkt alleen voor het uploaden van scanbestanden en verloopt na 60 minuten.
 - Stopt je abonnement, dan stopt de koppeling binnen een minuut en kan Claude geen nieuw token meer halen.
-- Per account werkt één Claude-koppeling tegelijk. Koppel je een tweede Claude, dan vervalt de eerste. Je login delen met iemand anders zet dus jezelf buiten spel.
+- Per account werkt één Claude-koppeling tegelijk: een tweede koppeling kan de eerste vervangen. Je login delen met iemand anders zet dus jezelf buiten spel.
+- De concurrentiescan leest tekst van concurrenten, en daar kan een opdracht in staan. Daarom mag `/ecom-coach:concurrentiescan` zonder te vragen alleen de scantools van Chief gebruiken, uploaden naar het adres van Chief, winkelpagina's ophalen naar de map `chief-scan` en bestanden schrijven in die map. Die toestemmingsregels alleen zijn geen harde grens: een regel die met het adres van Chief begint, laat achter dat begin ook een extra adres of een ander bestand toe.
+- Daarom komt er een extra slot mee: de Chief-scanwacht. Die controleert elke scanopdracht via Bash, Monitor of PowerShell: elke opdracht die `curl` aanroept en de map `chief-scan/` of het uploadadres van Chief (`concurrenten/upload`) noemt. Zo'n opdracht moet precies de vaste vorm hebben: één adres, en dat is het uploadadres van Chief of een vaste pagina van een winkel; opslaan alleen in `chief-scan`; niets ervoor of erachter, geen `$`, backticks, `;` of `|`. Wijkt hij af, dan houdt Claude Code hem tegen. In Bash en Monitor geldt dat ook als de `curl` achter een andere opdracht staat (`ls chief-scan/ && curl ...`); de reden zegt dan waarom hij als scanopdracht telt.
+- Noemt een opdracht in Bash of Monitor `chief-scan/` of `concurrenten/upload`, dan houdt de wacht ook elke `$( )`, backtick of procesvervanging (`<( )`, `>( )`) erin tegen, ook tussen aanhalingstekens en in een commitbericht. Een `curl` kan zich daarin verstoppen. Schrijf zo'n commitbericht bijvoorbeeld met `git commit -F bestand`.
+- Met rust laat de wacht: een gewone `curl` zonder die twee, en één losse `grep`, `echo`, `printf`, `cat`, `head`, `tail`, `ls`, `wc` of `git commit` die `curl` alleen als tekst noemt, zonder `;`, `|`, `&`, `<`, `>`, haakjes, accolades of een nieuwe regel.
+- Al het andere vraagt Claude Code eerst aan jou, tenzij je Claude Code zelf ruimer hebt ingesteld (bijvoorbeeld een modus die alles zonder vragen toestaat, of een eigen regel die elke `curl` toestaat). Twijfel je bij een vraag, kies dan Nee.
+- Wat de wacht niet is: een waterdichte grens.
+  - Kan de wacht niet starten of is hij niet op tijd klaar, dan laat Claude Code de opdracht door en beslissen alleen de toestemmingsregels.
+  - Getest op macOS. Op Windows (Git Bash en de PowerShell-wacht) is hij nog niet getest.
+  - Een upload mag elk opgeslagen toolresultaat van Claude Code versturen (de map `tool-results` van al je gesprekken, niet alleen dit gesprek), maar alleen naar Chief.
+  - Een winkelpagina controleert de wacht alleen op vorm: hij weet niet welke merken je bevestigde. Een vaste pagina van een ander domein ophalen kan dus, en de naam van dat domein kan zelf gegevens uit het gesprek meenemen (`https://<gegevens>.voorbeeld.com/meta.json`). Bestanden van jou gaan zo niet mee.
+  - Heb je op macOS of Linux zelf de PowerShell-tool aangezet, dan controleert de wacht die niet.
+- Nog open, keuze van de beheerder: winkelpagina's alleen van bevestigde merken toestaan. Dat kan op drie manieren: (1) de wacht leest de bevestigde domeinen uit het laatste antwoord van `scan_start` in het gesprek; (2) een hook van type `http` laat Chief het domein toetsen aan de merken van de scan (die laat de opdracht door als Chief onbereikbaar is); (3) de regel voor winkelpagina's uit het commando halen, dan vraagt Claude Code bij elke winkelpagina om toestemming. En voor een release: de wacht één keer draaien op een Windows-machine.
 - Koppeling weghalen: in Claude de connector verwijderen, of in je dashboard alle koppelingen intrekken.

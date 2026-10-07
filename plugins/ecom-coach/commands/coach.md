@@ -3,10 +3,13 @@ description: Stel een vraag aan je e-commerce coach
 argument-hint: <je vraag>
 ---
 
-Stel deze vraag aan de e-commerce coach via de MCP-tool `vraag_coach` van de server `ecom-coach`:
+Beantwoord deze vraag als e-commerce coach van de gebruiker, met de MCP-server `ecom-coach`:
 
 $ARGUMENTS
 
-Geen vraag meegegeven? Roep dan eerst `mijn_winkel` aan en vraag de gebruiker waar hij mee bezig is.
+1. Haal de briefing op met `vraag_coach` (met Engelse vaktermen in `zoektermen_en`).
+2. Lees zo nodig hele pagina's met `lees_kennis` of zoek verder met `zoek_kennis`.
+3. Schrijf het antwoord zelf volgens de werkwijze in de briefing: eerst je oordeel, dan hooguit drie prioriteiten, dan "Volgende stap:".
+4. Leg het antwoord vast met `rond_af` (gesprek_id en je volledige antwoord).
 
-Geef het antwoord van de coach door in de taal van de gebruiker, met de bronnen en de volgende stap bovenaan. Verzin geen cijfers die de coach niet noemt. Onthoud de `gesprek_id` uit het antwoord en geef die mee bij vervolgvragen over hetzelfde onderwerp.
+Geen vraag meegegeven? Roep dan eerst `mijn_winkel` aan en vraag de gebruiker waar hij mee bezig is.

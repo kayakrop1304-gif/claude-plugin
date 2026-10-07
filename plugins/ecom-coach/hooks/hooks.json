@@ -1,0 +1,36 @@
+{
+  "description": "Chief-scanwacht: een scanopdracht van /ecom-coach:concurrentiescan (curl met chief-scan/ of concurrenten/upload, via Bash, Monitor of PowerShell) moet precies de vaste vorm hebben, anders houdt Claude Code hem tegen. Alle andere opdrachten laat de wacht ongemoeid. Extra slot: start de wacht niet, dan beslissen de gewone toestemmingsregels.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Monitor",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/curlwacht.sh\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "PowerShell(curl.exe *)",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-NonInteractive",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "${CLAUDE_PLUGIN_ROOT}/hooks/curlwacht.ps1"
+            ],
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
