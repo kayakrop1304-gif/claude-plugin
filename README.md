@@ -49,7 +49,7 @@ Je eigen Claude haalt de Meta-ads van je concurrenten op met jouw Brandsearch, s
 Wat je nodig hebt:
 
 - De plugin met de Chief-koppeling (zie hierboven).
-- Brandsearch als connector op je eigen Claude-account: claude.ai, Customize > Connectors. Je hebt een Brandsearch-abonnement met API-tegoed nodig.
+- Brandsearch als connector op je eigen Claude-account: claude.ai, Customize > Connectors. Je hebt een Brandsearch-abonnement met API-tegoed nodig. Nog geen account? Maak er een via https://app.achieversecom.com/brandsearch.
 - Een computer met Claude Code of de Code-tab van de desktop-app. Op je telefoon en in een gewone chat werkt de scan niet, want Claude stuurt de bestanden met `curl` naar Chief.
 - Plugin versie 1.2.0 of nieuwer (zie Bijwerken).
 
